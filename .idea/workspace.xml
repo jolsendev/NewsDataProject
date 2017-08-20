@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b51ef60c-facc-4b51-9f05-b3213f8d0dab" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/NewsDataProject.iml" afterPath="$PROJECT_DIR$/.idea/NewsDataProject.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vagrant/newsdata.sql" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vagrant/src/newsdata.py" afterPath="$PROJECT_DIR$/vagrant/src/newsdata.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vagrant/src/notes" afterPath="$PROJECT_DIR$/vagrant/src/notes" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
