@@ -1,13 +1,12 @@
 1. What are the most popular three articles of all time? Which articles have been accessed the most? Present this
 information as a sorted list with the most popular article at the top.
 
-name of the article
-
-select substr(log.path, 10) as new_slug from log;
-
-trim(both 'x' from 'xTomxx')
-
-count article name in logs
+    SELECT articles.title, count(*) AS num from log, articles
+    WHERE log.path <> '/'
+    AND SUBSTR(log.path, 10) like '%' || articles.slug || '%'
+    GROUP BY articles.title
+    ORDER BY num DESC
+    LIMIT 3 OFFSET 0;
 
 Example:
 
@@ -19,6 +18,16 @@ Example:
 
 2. Who are the most popular article authors of all time? That is, when you sum up all of the articles each author has
 written, which authors get the most page views? Present this as a sorted list with the most popular author at the top.
+
+ select authors.name , result.num from  authors , (
+    SELECT articles.author, count(*) AS num from log, articles
+    WHERE log.path <> '/'
+    AND SUBSTR(log.path, 10) like '%' || articles.slug || '%'
+    GROUP BY articles.author
+    ORDER BY num DESC
+    LIMIT 3 OFFSET 0) as result
+where authors.id = result.author;
+
 
 Example:
 
@@ -33,7 +42,26 @@ Anonymous Contributor — 1023 views
 HTTP status code that the news site sent to the user's browser. (Refer back to this lesson if you want to review the
 idea of HTTP status codes.)
 
-Example:
+
+
+
+SELECT final_result.total_requests, final_result.percentage
+FROM (
+    SELECT result.t_total_requests_per_day as total_requests, ( CAST (result_two.num AS FLOAT) / CAST(result.num AS FLOAT) ) * 100 as percentage
+    FROM (
+        SELECT TO_CHAR(time, 'Mon-dd-YYYY') as t_total_requests_per_day, count(*) as num
+        FROM log
+        GROUP BY t_total_requests_per_day
+    ) as result,
+        (
+        SELECT TO_CHAR(time, 'Mon-dd-YYYY') as t_total_bad_requests_per_day, count(*) as num
+        FROM log
+        WHERE status != '200 OK'
+        GROUP BY t_total_bad_requests_per_day
+    ) as result_two
+    WHERE result.t_total_requests_per_day = result_two.t_total_bad_requests_per_day) as final_result
+WHERE final_result.percentage > 1.0;
+
 
 July 29, 2016 — 2.5% errors
 
