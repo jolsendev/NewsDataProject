@@ -14,7 +14,7 @@ To get started you will need to pull this project into a local repository.
 To install paycopq2 run this command in the terminal or command line. 
 
 ```
- pip install psycopg2
+ pip3 install psycopg2
 ```
 
 ### Installing
