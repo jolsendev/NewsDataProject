@@ -1,4 +1,4 @@
-# Project Title
+# Logs Analysis
 
 This is the Logs Analysis Project from the Udacity course Full Stack Web Development
 
