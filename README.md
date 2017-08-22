@@ -7,9 +7,9 @@ This is the Logs Analysis Project from the Udacity course Full Stack Web Develop
 To get started you will need to pull this project into a local repository. 
 ### Prerequisites
 
-*Virtual box installed
-*Python3 installed
-*psycopg2 pyrhon package
+* Virtual box installed
+* Python3 installed
+* psycopg2 pyrhon package
 
 To install paycopq2 run this command in the terminal or command line. 
 
