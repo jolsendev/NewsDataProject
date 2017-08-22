@@ -5,11 +5,10 @@ import psycopg2
 COL_ONE = 0
 COL_TWO = 1
 
-
 QUERY_QUESTION_ONE = '''
     SELECT articles.title, count(*) AS num from log, articles 
     WHERE log.path <> '/' 
-    AND SUBSTR(log.path, 10) like '%' || articles.slug || '%' 
+    AND SUBSTR(log.path, 10) = articles.slug 
     GROUP BY articles.title 
     ORDER BY num DESC 
     LIMIT 3 OFFSET 0;
@@ -20,17 +19,17 @@ QUERY_QUESTION_TWO = '''
     FROM  authors , (    
         SELECT articles.author, count(*) AS num from log, articles
         WHERE log.path <> '/'
-        AND SUBSTR(log.path, 10) like '%' || articles.slug || '%'
+        AND SUBSTR(log.path, 10) = articles.slug
         GROUP BY articles.author
         ORDER BY num DESC) as result        
     WHERE authors.id = result.author;
 '''
 
-
 QUERY_QUESTION_THREE = ''' 
 SELECT final_result.total_requests, final_result.percentage
 FROM (
-    SELECT result.t_total_requests_per_day as total_requests, ( CAST (result_two.num AS FLOAT) / CAST(result.num AS FLOAT) ) * 100 as percentage
+    SELECT result.t_total_requests_per_day as total_requests, ( CAST (result_two.num AS FLOAT) / 
+    CAST(result.num AS FLOAT) ) * 100 as percentage
     FROM (
         SELECT TO_CHAR(time, 'Mon, dd YYYY') as t_total_requests_per_day, count(*) as num
         FROM log
@@ -45,6 +44,7 @@ FROM (
     WHERE result.t_total_requests_per_day = result_two.t_total_bad_requests_per_day) as final_result
 WHERE final_result.percentage > 1.0;
 '''
+
 
 def get_query_results(query):
     try:
@@ -79,7 +79,7 @@ def question_three_result():
     rows = get_query_results(QUERY_QUESTION_THREE)
     results = ""
     for row in rows:
-        results += row[COL_ONE] + " - " + "%"+str("%.1f" % row[COL_TWO]) + " errors\n"
+        results += row[COL_ONE] + " - " + "%" + str("%.1f" % row[COL_TWO]) + " errors\n"
     return results
 
 
